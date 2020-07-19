@@ -1,0 +1,5 @@
+api_host: pve1
+api_user: root@pam
+api_password: '12345678'
+node: pve1
+template_name: 'alpine_1710510157.tar.xz'

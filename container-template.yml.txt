@@ -1,0 +1,42 @@
+---
+- name: container tamplate
+  hosts: servers
+  gather_facts: NO
+  tasks:
+  - name: include vars
+    include_vars: variables.yml
+
+  - name: download file container
+    get_url:
+      url: http://download.proxmox.com/images/system/alpine-3.11-default_20200425_amd64.tar.xz
+      dest: /var/lib/vz/template/cache/{{ template_name }}
+
+  - name: task list
+    include_tasks: get-template.yml
+
+  - name: membuat container baru
+    proxmox:
+      api_host: "{{ api_host }}"
+      api_user: "{{ api_user }}"
+      api_password: "{{ api_password }}"
+      node: "{{ node }}"
+      vmid: 200
+      hostname: rudi1710510157.ubg.local
+      password: 12345678
+      ostemplate: 'local:vztmpl/{{ template_name }}'
+      cpus: 1
+      cpuunits: 500
+      memory: 512
+      swap: 512
+      disk: '1'
+      storage: local-lvm
+      storage: local-lvm
+      nameserver: 192.168.169.254
+      searchdomain: ubg.local
+      netif: '{"net0":"name=eth0,gw=192.168.169.254,ip=192.168.169.7/24,bridge=vmbr0"}'
+      onboot: no
+      unprivileged: yes
+      state: present
+
+  - name: konten container
+    include_tasks: get-container.yml

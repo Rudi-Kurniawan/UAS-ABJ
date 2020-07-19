@@ -1,0 +1,7 @@
+- name: Mengambil informasi konten local storage
+  command: pvesh get /nodes/pve1/storage/local/content --output-format json
+  register: results
+
+- name: Menampilkan isi variable results
+  debug:
+    msg: "{{ results.stdout }}"

@@ -1,0 +1,34 @@
+---
+- name: menghapus container
+  hosts: servers
+  gather_facts: NO
+
+  tasks:
+  - name: menyisipkan variable
+    include_vars: variables.yml
+
+  - name: mengapus container id 200
+    proxmox:
+       api_host: "{{ api_host }}"
+       api_user: "{{ api_user }}"
+       api_password: "{{ api_password }}"
+       node: "{{ node }}"
+       vmid: '200'
+       state: absent
+    tags: delete
+
+  - name: include get container
+    include_tasks: get-container.yml
+
+  - name: mengahapus container tamplate
+    proxmox_template:
+       api_host: "{{ api_host }}"
+       api_user: "{{ api_user }}"
+       api_password: "{{ api_password }}"
+       node: "{{ node }}"
+       template: "{{ template_name }}"
+       state: absent
+    tags: hapus
+
+  - name: include get template
+    include_tasks: get-template.yml

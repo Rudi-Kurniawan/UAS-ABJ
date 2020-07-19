@@ -1,0 +1,8 @@
+- name: Mengambil data container
+  command: pvesh get /nodes/pve1/lxc --output-format json
+  register: results
+
+- name: Menampilkan isi variable results
+  debug:
+    msg: "{{ results.stdout }}"
+
